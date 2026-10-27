@@ -1,0 +1,33 @@
+{
+  "employees": [
+    {
+      "name": "Krishna",
+      "email": "krishnakumar@codeboard.com",
+      "department": "Product",
+      "joiningDate": "2026-09-11",
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "name": "Dheventhiran",
+      "email": "dheventhiran@codeboard.com",
+      "department": "Product",
+      "joiningDate": "2026-09-12"
+    },
+    {
+      "id": "3",
+      "name": "AyyamPerumal",
+      "email": "ayyamperumal@codeboard.com",
+      "department": "Design",
+      "joiningDate": "2026-09-13"
+    },
+    {
+      "name": "Murugan L",
+      "email": "example@codeboard.com",
+      "department": "HR",
+      "joiningDate": "2026-10-26",
+      "id": 4
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

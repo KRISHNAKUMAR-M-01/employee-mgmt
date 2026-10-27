@@ -1,0 +1,94 @@
+<div>
+    <app-page-header title="Employee" subtitle="View and manage Employees"></app-page-header>
+</div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <a routerLink="/employees/new" class="btn btn-primary">
+        + Add Employee
+    </a>
+
+    <span class="badge text-bg-primary">
+        Total: {{filteredEmployees().length}}
+    </span>
+</div>
+
+@if (successMessage()) {
+<div class="alert alert-success" role="status">{{successMessage()}}</div>
+}
+
+@if(isLoading()) {
+
+<app-loader message="Loading employees..."></app-loader>
+
+}@else if(errorMessage()) {
+<app-error-message [message]="errorMessage()" (retry)="loadEmployees()"></app-error-message>
+
+}@else if(!isLoading() && !errorMessage() ) {
+
+<div class="row g-3 mb-3">
+    <div class="col-md-8">
+        <label for="employeeSearch" class="form-label">Search by name and email</label>
+        <input type="text" id="employeeSearch" class="form-control" placeholder="Enter name or mail"
+            [value]="searchTerm()" (input)="searchTerm.set($any($event.target).value)">
+    </div>
+    <div class="col-md-4">
+        <label for="departmentFilter" class="form-label mb-2">Department</label>
+
+        <select id="departmentFilter" class="form-select" [value]="selectedDepartment()"
+            (change)="selectedDepartment.set($any($event.target).value)">
+
+            @for(department of departments; track department) {
+
+            <option [value]="department">{{department}}</option>
+
+            }
+        </select>
+    </div>
+</div>
+
+@if (filteredEmployees().length > 0) {
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Joining Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @for(employee of filteredEmployees(); track employee.id) {
+            <tr>
+                <td>{{employee.id}}</td>
+                <td>{{employee.name}}</td>
+                <td>{{employee.email}}</td>
+                <td>{{employee.department}}</td>
+                <td>{{employee.joiningDate}}</td>
+                <td>
+                    <a [routerLink]="['/employees',employee.id]" class="btn btn-sm btn-info m-2 px-2">View</a>
+                    <a [routerLink]="['/employees', employee.id, 'edit']"
+                        class="btn btn-sm btn-warning m-2 px-2">Edit</a>
+                    <button class="btn btn-sm btn-danger m-2" type="button"
+                        (click)="openDeleteDialog(employee)">Delete</button>
+
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+} @else {
+<div class="alert alert-secondary">
+    No employees match your search or department filter
+</div>
+}
+@if(showDeleteDialog() && selectedEmployee(); as employee) {
+<app-confirm-dialog title="Delete Employee" [message]="'Are you sure you want to delete ' +employee.name + '?'"
+    confirmText="Delete" cancelText="Cancel" (confirmed)="deleteEmployee(employee)"
+    (cancelled)="cancelDelete()"></app-confirm-dialog>
+}
+}

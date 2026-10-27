@@ -1,0 +1,21 @@
+<h2 class="mb-4">Employee Details</h2>
+
+@if(isLoading()) {
+<app-loader message="Loading employee details" />
+} @else if(errorMessage()) {
+<div class="alert alert-danger" role="alert">
+    {{errorMessage()}}
+</div>
+} @else if(employee(); as emp) {
+    <div class="card">
+        <div class="card-body">
+            <p><strong>ID: </strong>{{emp.id}}</p>
+            <p><strong>Name: </strong>{{emp.name}}</p>
+            <p><strong>Email: </strong>{{emp.email}}</p>
+            <p><strong>Department: </strong>{{emp.department}}</p>
+            <p><strong>Joining Date: </strong>{{emp.joiningDate}}</p>
+
+            <a routerLink="/employees"  class="btn btn-secondary">Back to Employees</a>
+        </div>
+    </div>
+}
